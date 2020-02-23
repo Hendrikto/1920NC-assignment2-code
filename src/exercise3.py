@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 import numpy as np
 from deap import creator
 from tqdm import tqdm
@@ -53,3 +54,48 @@ def generate_particle(toolbox):
     particle.velocity = toolbox.random_vectors()
     particle.best = particle.copy()
     return particle
+
+
+def plot_clustering_2d(
+    X, y,
+    centroids,
+    *,
+    feature_names,
+    title,
+    save_path=None,
+):
+    colors = ('red', 'blue', 'yellow')
+
+    clusters = assign_clusters(centroids, X)
+    classes = np.unique(y)
+
+    plt.figure()
+    plt.title(title)
+    plt.xlabel(feature_names[0])
+    plt.ylabel(feature_names[1])
+    for cls in classes:
+        indexes = np.arange(len(X))[y == cls]
+        for cluster_id, cluster in enumerate(clusters):
+            instances = X[indexes[np.isin(indexes, cluster)]]
+            plt.scatter(
+                *instances.T,
+                alpha=0.5,
+                color=colors[cluster_id],
+                label=f'class {cls}, cluster {cluster_id}',
+                marker='o^'[cls],
+            )
+    for i, centroid in enumerate(centroids):
+        plt.scatter(
+            *centroid,
+            color=colors[i],
+            label=f'centroid {i}',
+            marker='x',
+        )
+    plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+    plt.tight_layout()
+
+    if save_path:
+        plt.savefig(save_path)
+
+    plt.show()
+    plt.close()
