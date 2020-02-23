@@ -1,7 +1,13 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from deap import creator
+from deap import (
+    base,
+    creator,
+    tools,
+)
 from tqdm import tqdm
+
+import problem1
 
 creator.create('Particle', np.ndarray, fitness=float('inf'))
 
@@ -99,3 +105,29 @@ def plot_clustering_2d(
 
     plt.show()
     plt.close()
+
+
+def exercise3_problem1():
+    X, y = problem1.generate_instances()
+    feature_names = ('$z_1$', '$z_2$')
+
+    N_d = X.shape[1]
+    N_c = 2
+
+    toolbox = base.Toolbox()
+    toolbox.register('random_vectors', np.random.uniform, -1, 1, size=(N_c, N_d))
+    toolbox.register('particle', generate_particle, toolbox=toolbox)
+    toolbox.register('population', tools.initRepeat, tuple, toolbox.particle)
+
+    population = toolbox.population(n=100)
+    solution = run_pso(population, X, 50)
+
+    plot_clustering_2d(
+        X, y,
+        solution,
+        feature_names=feature_names,
+        title=f'PSO: Artificial Problem 1 (fitness = {solution.fitness:.4f})',
+    )
+
+
+exercise3_problem1()
