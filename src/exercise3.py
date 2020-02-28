@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import sklearn.cluster
 from deap import (
     base,
     creator,
@@ -127,6 +128,21 @@ def exercise3_problem1():
         solution,
         feature_names=feature_names,
         title=f'PSO: Artificial Problem 1 (fitness = {solution.fitness:.4f})',
+    )
+
+    k_means = sklearn.cluster.KMeans(N_c)
+    k_means.fit(X)
+    k_means_fitness = evaluate(
+        k_means.cluster_centers_,
+        X,
+        assign_clusters(k_means.cluster_centers_, X),
+    )
+
+    plot_clustering_2d(
+        X, y,
+        k_means.cluster_centers_,
+        feature_names=feature_names,
+        title=f'k-Means: Artificial Problem 1 (fitness = {k_means_fitness:.4f})',
     )
 
 
