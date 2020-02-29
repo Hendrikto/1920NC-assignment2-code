@@ -198,5 +198,21 @@ def exercise3_iris():
     N_d = X.shape[1]
     N_c = len(iris_dataset['target_names'])
 
+    k_means = sklearn.cluster.KMeans(N_c)
+    k_means.fit(X)
+    k_means_fitness = evaluate(
+        k_means.cluster_centers_,
+        X,
+        assign_clusters(k_means.cluster_centers_, X),
+    )
+
+    plot_clustering_4d(
+        X, y,
+        k_means.cluster_centers_,
+        feature_names=feature_names,
+        title=f'k-Means: Iris (fitness = {k_means_fitness:.4f})',
+    )
+
 
 exercise3_problem1()
+exercise3_iris()
