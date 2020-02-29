@@ -198,6 +198,21 @@ def exercise3_iris():
     N_d = X.shape[1]
     N_c = len(iris_dataset['target_names'])
 
+    toolbox = base.Toolbox()
+    toolbox.register('random_vectors', np.random.uniform, X.min(), X.max(), size=(N_c, N_d))
+    toolbox.register('particle', generate_particle, toolbox=toolbox)
+    toolbox.register('population', tools.initRepeat, tuple, toolbox.particle)
+
+    population = toolbox.population(n=100)
+    solution = run_pso(population, X)
+
+    plot_clustering_4d(
+        X, y,
+        solution,
+        feature_names=feature_names,
+        title=f'PSO: Iris (fitness = {solution.fitness:.4f})',
+    )
+
     k_means = sklearn.cluster.KMeans(N_c)
     k_means.fit(X)
     k_means_fitness = evaluate(
