@@ -130,6 +130,7 @@ def exercise3_problem1():
         solution,
         feature_names=feature_names,
         title=f'PSO: Artificial Problem 1 (fitness = {solution.fitness:.4f})',
+        save_path='plots/exercise3-problem1-pso.pdf',
     )
 
     k_means = sklearn.cluster.KMeans(N_c)
@@ -145,6 +146,7 @@ def exercise3_problem1():
         k_means.cluster_centers_,
         feature_names=feature_names,
         title=f'k-Means: Artificial Problem 1 (fitness = {k_means_fitness:.4f})',
+        save_path='plots/exercise3-problem1-k_means.pdf',
     )
 
 
@@ -211,6 +213,7 @@ def exercise3_iris():
         solution,
         feature_names=feature_names,
         title=f'PSO: Iris (fitness = {solution.fitness:.4f})',
+        save_path='plots/exercise3-iris-pso.pdf',
     )
 
     k_means = sklearn.cluster.KMeans(N_c)
@@ -226,6 +229,7 @@ def exercise3_iris():
         k_means.cluster_centers_,
         feature_names=feature_names,
         title=f'k-Means: Iris (fitness = {k_means_fitness:.4f})',
+        save_path='plots/exercise3-iris-k_means.pdf',
     )
 
 
