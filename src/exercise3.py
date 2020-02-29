@@ -7,6 +7,7 @@ from deap import (
     creator,
     tools,
 )
+from mpl_toolkits.mplot3d import Axes3D  # noqa: F401
 from tqdm import tqdm
 
 import problem1
@@ -145,6 +146,47 @@ def exercise3_problem1():
         feature_names=feature_names,
         title=f'k-Means: Artificial Problem 1 (fitness = {k_means_fitness:.4f})',
     )
+
+
+def plot_clustering_4d(
+    X, y,
+    centroids,
+    *,
+    feature_names,
+    title,
+    save_path=None,
+):
+    classes = np.unique(y)
+
+    plt.figure()
+    axes = plt.gca(projection='3d')
+    axes.set_title(title)
+    axes.set_xlabel(feature_names[0])
+    axes.set_ylabel(feature_names[1])
+    axes.set_zlabel(feature_names[2])
+    for cls in classes:
+        instances = X[y == cls]
+        axes.scatter(
+            *instances.T[:3],
+            c=instances[:, 3],
+            cmap=plt.cm.viridis,
+            label=f'class {cls}',
+            marker='os^'[cls],
+        )
+    axes.scatter(
+        *centroids.T[:3],
+        c=centroids[:, 3],
+        cmap=plt.cm.viridis,
+        label='centroids',
+        marker='x',
+    )
+    plt.legend()
+
+    if save_path:
+        plt.savefig(save_path)
+
+    plt.show()
+    plt.close()
 
 
 def exercise3_iris():
