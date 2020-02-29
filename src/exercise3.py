@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import sklearn.cluster
+import sklearn.datasets
 from deap import (
     base,
     creator,
@@ -144,6 +145,16 @@ def exercise3_problem1():
         feature_names=feature_names,
         title=f'k-Means: Artificial Problem 1 (fitness = {k_means_fitness:.4f})',
     )
+
+
+def exercise3_iris():
+    iris_dataset = sklearn.datasets.load_iris()
+    X = iris_dataset['data']
+    y = iris_dataset['target']
+    feature_names = iris_dataset['feature_names']
+
+    N_d = X.shape[1]
+    N_c = len(iris_dataset['target_names'])
 
 
 exercise3_problem1()
